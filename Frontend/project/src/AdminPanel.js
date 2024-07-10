@@ -10,9 +10,6 @@ export default function AdminPanel() {
   const [totalCount, settotalCount] = useState(0);
   const navigate=useNavigate();
 
-  useEffect(() => {
-    getUsers();
-  }, []);
 
   const handleSearchFilter = (e) => {
     e.preventDefault();
@@ -55,6 +52,9 @@ export default function AdminPanel() {
       }
       
   }
+  useEffect(() => {
+    getUsers();
+  }, []);
   return (
     <>
       <section className="content-main">

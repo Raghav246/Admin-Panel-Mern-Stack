@@ -11,7 +11,7 @@ export default function UpdatePage(){
       });
       const {id}=useParams();
       useEffect(()=>{
-       getUser
+       getUser()
       },[])
 
       const getUser=async(id)=>{
