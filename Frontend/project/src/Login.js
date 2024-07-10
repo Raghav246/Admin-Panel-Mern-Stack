@@ -1,7 +1,9 @@
 import axios from "axios";
 import { useState } from "react"
+import { Link, useNavigate } from "react-router-dom";
 export default function Login(){
     const[user,setuser]=useState({"email":'',"password":""})
+    const navigate=useNavigate();
     const changehandler=(e)=>{
         const{name,value}=e.target;
         setuser({...user,[name]:value})
@@ -11,7 +13,19 @@ export default function Login(){
           const{name,value}=e.target;
           try{
           const response=await axios.post("http://localhost:4000/api/login",user);
-            console.log(response.data)
+          if(response.data.status)
+            {
+            localStorage.setItem("accessToken",response?.data?.token);
+              if(response?.data?.data?.role=='Admin'){
+              localStorage.setItem("adminToken",response?.data?.token);
+                navigate('/admin')
+              }
+              else{
+                navigate('/user')
+              }
+          
+          }
+            
           }
           catch(e){
           console.log(e)
@@ -38,6 +52,10 @@ export default function Login(){
             </div>
             <button type="submit" className="btn btn-success form-control">Login</button>
             </form>
+            <div className="text-center mt-2">
+            <a>Don't Have Account?<Link to="/register">Register here</Link></a>
+            </div>
+          
                 </div>
           
             </div>
