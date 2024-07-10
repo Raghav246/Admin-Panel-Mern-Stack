@@ -89,13 +89,12 @@ exports.getUsers = async (req, res) => {
 };
 exports.getUser = async (req, res) => {
   try {
-    const { id } = req.params;
-    const user = await findUserById(id); 
+    const user = await User.findById(req.params.id); 
 if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: 'User not found'});
     }
-
-    res.status(200).json(user);
+    else
+return res.status(200).json({status:true,data:user});
   } catch (error) {
     res.status(500).json({ message: 'An error occurred', error });
   }
@@ -103,14 +102,12 @@ if (!user) {
 
 exports.updateUser = async (req, res) => {
   const { id } = Number(req.params);
-  console.log(id);
   const updatedData = req.body;
-  console.log(updatedData);
   try {
-    const item = await User.findByIdAndUpdate(id, updatedData, { new: true });
+    const item = await User.findByIdAndUpdate(req.params.id, updatedData, { new: true });
     if (!item) {
       return res.status(404).json({ error: "Item not found" });
-    } else return res.status(200).json(item);
+    } else return res.status(200).json({"status":true,data:item});
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });
@@ -118,14 +115,15 @@ exports.updateUser = async (req, res) => {
 };
 
 exports.DeleteUser = async (req, res) => {
-  const { id } = req.params;
   try {
-    const result = await User.deleteOne(id);
-    if (!result) {
+    const result = await User.deleteOne({ _id: req.params.id });
+    if (result.deletedCount === 0) {
       return res.status(404).json({ message: "User not found" });
-    } else
-      return res.status(200).json({ message: "User deleted successfully" });
+    } else {
+      return res.status(200).json({ status: true, message: "User deleted successfully" });
+    }
   } catch (error) {
     res.status(500).json({ message: "An error occurred", error });
   }
 };
+

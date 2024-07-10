@@ -39,14 +39,13 @@ export default function AdminPanel() {
   };
   const deletehandler=async(index,id)=>{
       try{
-        const response=await axios.delete('http://localhost:4000/api/delete/${id}');
+        const response=await axios.delete(`http://localhost:4000/api/delete/${id}`);
         if(response.data.status){
-          const users=userList;
+          const users=[...userList];
           users.splice(index,1);
-          setuserList(users)
+          setuserList(users);
         }
-
-      }
+}
       catch(e){
         console.log(e)
       }
@@ -73,6 +72,7 @@ export default function AdminPanel() {
                     value={search}
                     onChange={(e) => setsearch(e.target.value)}
                   />
+                  
                 </div>
                 <button
                   type="button"
@@ -82,6 +82,7 @@ export default function AdminPanel() {
                   Search
                 </button>
               </div>
+              <button className="btn btn-success" onClick={()=>navigate('/register')}>Add User</button>
             </div>
             <div className="table-responsive table-custom_1">
               <table className="table mb-0 bg-white">

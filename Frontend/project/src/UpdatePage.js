@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function UpdatePage(){
     const [user, setuser] = useState({
@@ -10,13 +10,14 @@ export default function UpdatePage(){
         password: "",
       });
       const {id}=useParams();
+      const navigate=useNavigate();
       useEffect(()=>{
-       getUser()
+       getUser(id);
       },[])
 
       const getUser=async(id)=>{
         try{
-        const response=await axios.get(`http://localhost:4000/user/${id}`);
+        const response=await axios.get(`http://localhost:4000/api/user/${id}`);
         setuser(response.data.data)
         }
         catch(e){
@@ -33,7 +34,9 @@ export default function UpdatePage(){
           const response = await axios.put(
             `http://localhost:4000/api/update/${id}`,user
           );
-          console.log(response.data);
+        if(response.status){
+            navigate('/admin')
+        }
         } catch (e) {
           console.log(e);
         }
