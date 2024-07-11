@@ -73,7 +73,7 @@ export default function Register() {
                 <lablel for="">Password</lablel>
             <input type="password" placeholder="enter your password" name="password" value={user?.password} className="form-control mt-2 mb-3" onChange={changehandler} />
             <div style={{color:'red',fontSize:'14px'}}>
-              {SimpleValidator.current.message('password',user?.password,'required')}
+              {SimpleValidator.current.message('password',user?.password,'required|alphanumerc|max:8')}
             </div>
             </div>
             <button type="submit" className="btn btn-success form-control" disabled={isSubmitting}>Register</button>
